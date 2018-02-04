@@ -1,6 +1,5 @@
 package com.dev.rapture.fileparser;
 
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,9 +8,18 @@ import java.util.Observer;
  */
 public class ParsedDataObserver implements Observer
 {
+    private DataFormatWriter writer;
+
+    public ParsedDataObserver(DataFormatWriter writer)
+    {
+        this.writer = writer;
+    }
+
     @Override
     public void update(Observable observable, Object arg)
     {
-        System.out.println(Arrays.toString(((ParsedDataObservable) observable).pullData()));
+        if (arg != null && arg.toString().equalsIgnoreCase("end")) writer.end();
+
+        else writer.write(((ParsedDataObservable) observable).pullData());
     }
 }

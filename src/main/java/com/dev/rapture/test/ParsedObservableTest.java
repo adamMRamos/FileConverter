@@ -1,5 +1,7 @@
 package com.dev.rapture.test;
+import com.dev.rapture.fileparser.DataFormatWriter;
 import com.dev.rapture.fileparser.ParsedDataObservable;
+import com.dev.rapture.fileparser.ParsedDataObserver;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,16 +37,11 @@ public class ParsedObservableTest
     }
 
     @Test
-    public void hasChanged()
+    public void cantAddMoreThanOneObserver()
     {
-        po.pushData(data);
-        assertTrue(po.hasChanged());
-    }
-
-    @Test
-    public void hasNotChanged()
-    {
-        po.pullData();
-        assertFalse(po.hasChanged());
+        po.addObserver(new ParsedDataObserver(null));
+        po.addObserver(new ParsedDataObserver(null));
+        po.addObserver(new ParsedDataObserver(null));
+        assertEquals(1, po.countObservers());
     }
 }

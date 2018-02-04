@@ -34,23 +34,19 @@ public class Main
              CSVReader reader = new CSVReader(isr)) {
 
             ParsedDataObservable observable = new ParsedDataObservable();
-            ParsedDataObserver observer = new ParsedDataObserver();
+            DataFormatWriter formatWriter = null;
+            try {
+                formatWriter = new DataFormatWriter();
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
+
+            ParsedDataObserver observer = new ParsedDataObserver(formatWriter);
             observable.addObserver(observer);
 
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) observable.pushData(nextLine);
-        }
-    }
-
-    public static void writeToXML() throws XMLStreamException, IOException
-    {
-        try (FileOutputStream fos = new FileOutputStream("test.xml")){
-            XMLOutputFactory xmlOutFact = XMLOutputFactory.newInstance();
-            XMLStreamWriter writer = xmlOutFact.createXMLStreamWriter(fos);
-            writer.writeStartDocument();
-            writer.writeStartElement("test");
-            // write stuff
-            writer.writeEndElement();
+            observable.end();
         }
     }
 }

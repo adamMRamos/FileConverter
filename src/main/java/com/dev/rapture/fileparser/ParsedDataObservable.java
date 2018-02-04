@@ -2,6 +2,7 @@ package com.dev.rapture.fileparser;
 
 import java.util.ArrayDeque;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Queue;
 
 /**
@@ -23,6 +24,13 @@ public class ParsedDataObservable extends Observable
         this.notifyObservers();
     }
 
+    public void end()
+    {
+        this.setChanged();
+        this.notifyObservers("end");
+        this.incomingData.clear();
+    }
+
     public String[] pullData()
     {
         return this.incomingData.poll();
@@ -31,5 +39,12 @@ public class ParsedDataObservable extends Observable
     public boolean hasData()
     {
         return !this.incomingData.isEmpty();
+    }
+
+    @Override
+    public void addObserver(Observer o)
+    {
+        this.deleteObservers();
+        super.addObserver(o);
     }
 }
