@@ -13,14 +13,16 @@ import java.util.Map;
 /**
  * Created by amram on 2/4/2018.
  */
-public class XMLFormatReader implements FormatReader
+public class XMLFormatReader extends FormatReader
 {
     private XMLStreamReader xmlStreamReader;
     private Map<String, Integer> fieldMap = new HashMap<>();
     private Map<Integer, XmlStateModifier> stateModifierMap = new HashMap<>();
 
-    public XMLFormatReader(FileInputStream fis)
+    public XMLFormatReader(FileInputStream fis, String[] header)
     {
+        super(header);
+
         this.initializeAttributeMap();
         this.initializeXmlStateModifiers();
 
@@ -31,17 +33,15 @@ public class XMLFormatReader implements FormatReader
 
     private void initializeAttributeMap()
     {
-        for (int i = 0; i < 12; i++) this.fieldMap.put("field"+i, i);
-        this.fieldMap.put("student", -1);
+        for (int i = 0; i < this.header.length; i++) this.fieldMap.put(this.header[i], i);
+        this.fieldMap.put("element", -1);
     }
 
     public String[] readLine()
     {
-        System.out.println("readline");
-
         String[] arrayOfData = null;
 
-        try { arrayOfData = this.readXMLObjectIntoArrayV2(); }
+        try { arrayOfData = this.readXMLObjectIntoArray(); }
         catch (XMLStreamException e) { e.printStackTrace(); }
 
         return arrayOfData;
@@ -81,9 +81,9 @@ public class XMLFormatReader implements FormatReader
         return stateModifier != null ? stateModifier : this.stateModifierMap.get(null);
     }
 
-    private String[] readXMLObjectIntoArrayV2() throws XMLStreamException
+    private String[] readXMLObjectIntoArray() throws XMLStreamException
     {
-        XmlIteratorState iteratorState = new XmlIteratorState(new String[12]);
+        XmlIteratorState iteratorState = new XmlIteratorState(new String[this.header.length]);
 
         int event = this.xmlStreamReader.getEventType();
 

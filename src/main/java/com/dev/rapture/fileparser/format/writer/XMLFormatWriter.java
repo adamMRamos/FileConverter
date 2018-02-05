@@ -11,14 +11,16 @@ import java.util.Arrays;
 /**
  * Created by amram on 2/4/2018.
  */
-public class XMLFormatWriter implements FormatWriter
+public class XMLFormatWriter extends FormatWriter
 {
     private XMLStreamWriter writer;
     private boolean began = false;
     private boolean end = false;
 
-    public XMLFormatWriter(FileOutputStream fos)
+    public XMLFormatWriter(FileOutputStream fos, String[] header)
     {
+        super(header);
+
         XMLOutputFactory xmlOutFact = XMLOutputFactory.newInstance();
         try { this.writer = xmlOutFact.createXMLStreamWriter(fos); }
         catch (XMLStreamException e) { e.printStackTrace(); }
@@ -54,7 +56,7 @@ public class XMLFormatWriter implements FormatWriter
     private void writeToXML(Object[] data)
     {
         try {
-            this.writer.writeStartElement("student");
+            this.writer.writeStartElement("element");
             this.writeObjectFields(data);
             this.writer.writeEndElement();
             this.writer.flush();
@@ -65,10 +67,11 @@ public class XMLFormatWriter implements FormatWriter
 
     private void writeObjectFields(Object[] data)
     {
-        final int[] counter = new int[]{0};
+        int[] counter = new int[]{0};
         Arrays.stream(data).forEach(element -> {
             String elementAsStringData = element.toString().trim();
-            String fieldName = "field"+counter[0]++;
+            String fieldName = this.header[counter[0]++];
+
             try {
                 if (!elementAsStringData.isEmpty()) this.writeElement(fieldName, elementAsStringData);
             }

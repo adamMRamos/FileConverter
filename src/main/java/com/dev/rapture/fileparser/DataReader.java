@@ -15,9 +15,9 @@ public class DataReader
     private FormatReader reader;
     private ParsedDataObservable observable;
 
-    public DataReader(FileInputStream fis, FormatType type)
+    public DataReader(FileInputStream fis, String[] header, FormatType type)
     {
-        this.reader = FormatReaderFactory.getInstance(fis, type);
+        this.reader = FormatReaderFactory.getInstance(fis, header, type);
         this.observable = new ParsedDataObservable();
     }
 

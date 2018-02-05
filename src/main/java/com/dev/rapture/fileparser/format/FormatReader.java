@@ -3,8 +3,12 @@ package com.dev.rapture.fileparser.format;
 /**
  * Created by amram on 2/5/2018.
  */
-public interface FormatReader
+public abstract class FormatReader
 {
-    String[] readLine();
-    void close();
+    protected String[] header;
+
+    public FormatReader(String[] header) { this.header = header; }
+
+    public abstract String[] readLine();
+    public abstract void close();
 }

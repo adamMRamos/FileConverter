@@ -10,20 +10,33 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by amram on 2/5/2018.
  */
-public class CsvFormatWriter implements FormatWriter
+public class CsvFormatWriter extends FormatWriter
 {
     private CSVWriter writer;
+    private boolean start = false;
 
-    public CsvFormatWriter(FileOutputStream fos)
+    public CsvFormatWriter(FileOutputStream fos, String[] header)
     {
+        super(header);
+
         OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
         this.writer = new CSVWriter(osw);
     }
 
     public void write(Object[] data)
     {
+        if (!start) this.startToWriteCsv();
+
         try { this.writeToCsv(data); }
         catch (IOException e) { e.printStackTrace(); }
+    }
+
+    private void startToWriteCsv()
+    {
+        try { this.writeToCsv(this.header); }
+        catch (IOException e) { e.printStackTrace(); }
+
+        this.start = true;
     }
 
     private void writeToCsv(Object[] data) throws IOException

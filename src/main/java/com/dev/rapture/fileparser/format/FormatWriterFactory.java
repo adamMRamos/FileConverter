@@ -10,11 +10,11 @@ import java.io.FileOutputStream;
  */
 public class FormatWriterFactory
 {
-    public static FormatWriter getInstance(FileOutputStream fos, FormatType type)
+    public static FormatWriter getInstance(FileOutputStream fos, String[] header, FormatType type)
     {
         switch(type) {
-            case XML: return new XMLFormatWriter(fos);
-            case CSV: return new CsvFormatWriter(fos);
+            case XML: return new XMLFormatWriter(fos, header);
+            case CSV: return new CsvFormatWriter(fos, header);
             default: return null;
         }
     }

@@ -10,13 +10,15 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by amram on 2/4/2018.
  */
-public class CsvFormatReader implements FormatReader
+public class CsvFormatReader extends FormatReader
 {
     private CSVReader reader;
-    private boolean began = false;
+    private boolean start = false;
 
-    public CsvFormatReader(FileInputStream fis)
+    public CsvFormatReader(FileInputStream fis, String[] header)
     {
+        super(header);
+
         InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
         this.reader = new CSVReader(isr);
     }
@@ -30,7 +32,15 @@ public class CsvFormatReader implements FormatReader
     {
         String[] line = null;
 
-        try { line = this.reader.readNext(); }
+        try {
+            line = this.reader.readNext();
+
+            if (!start) {
+                this.header = line;
+                line = this.reader.readNext();
+                this.start = true;
+            }
+        }
         catch (IOException e) { e.printStackTrace(); }
 
         return line;
@@ -40,5 +50,10 @@ public class CsvFormatReader implements FormatReader
     {
         try { this.reader.close(); }
         catch (IOException e) { e.printStackTrace(); }
+    }
+
+    public String[] getHeader()
+    {
+        return this.header;
     }
 }

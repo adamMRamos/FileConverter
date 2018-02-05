@@ -14,9 +14,9 @@ public class DataWriter
 {
     private ParsedDataObserver observer;
 
-    public DataWriter(FileOutputStream fos, FormatType type)
+    public DataWriter(FileOutputStream fos, String[] header, FormatType type)
     {
-        FormatWriter writer = FormatWriterFactory.getInstance(fos, type);
+        FormatWriter writer = FormatWriterFactory.getInstance(fos, header, type);
         this.observer = new ParsedDataObserver(writer);
     }
 

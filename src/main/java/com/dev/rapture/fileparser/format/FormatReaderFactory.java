@@ -10,11 +10,11 @@ import java.io.FileInputStream;
  */
 public class FormatReaderFactory
 {
-    public static FormatReader getInstance(FileInputStream fis, FormatType type)
+    public static FormatReader getInstance(FileInputStream fis, String[] header, FormatType type)
     {
         switch(type) {
-            case CSV: return new CsvFormatReader(fis);
-            case XML: return new XMLFormatReader(fis);
+            case CSV: return new CsvFormatReader(fis, header);
+            case XML: return new XMLFormatReader(fis, header);
             default: return null;
         }
     }
