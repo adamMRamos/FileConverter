@@ -1,5 +1,7 @@
 package com.dev.rapture.fileparser;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class Main
@@ -13,12 +15,21 @@ public class Main
 
         DataWriter writer = new DataWriter(Main.writeFilepath);
 
-        DataReader reader = new DataReader(Main.readFilepath);
-        reader.linkDataReceiver(writer);
-        reader.readAllData();
+        DataReader reader;
+        try {
+            reader = new DataReader(new FileInputStream(Main.readFilepath));
+            reader.linkDataReceiver(writer);
+            reader.readAllData();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        XMLDataFormatReader xmlReader = new XMLDataFormatReader(writeFilepath);
-        String[] line;
-        while((line = xmlReader.readLine()) != null) System.out.println(Arrays.toString(line));
+        try {
+            XMLFormatReader xmlReader = new XMLFormatReader(new FileInputStream(Main.writeFilepath));
+            String[] line;
+            while((line = xmlReader.readLine()) != null) System.out.println(Arrays.toString(line));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -10,13 +10,13 @@ import java.util.Arrays;
 /**
  * Created by amram on 2/4/2018.
  */
-public class DataFormatWriter
+public class XMLFormatWriter
 {
     private XMLStreamWriter writer;
     private boolean began = false;
     private boolean end = false;
 
-    public DataFormatWriter(String writeFilepath) throws FileNotFoundException, XMLStreamException
+    public XMLFormatWriter(String writeFilepath) throws FileNotFoundException, XMLStreamException
     {
         FileOutputStream fos = new FileOutputStream(writeFilepath);
         XMLOutputFactory xmlOutFact = XMLOutputFactory.newInstance();

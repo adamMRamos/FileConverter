@@ -13,7 +13,7 @@ public class DataWriter
     public DataWriter(String writeFilepath)
     {
         try {
-            DataFormatWriter writer = new DataFormatWriter(writeFilepath);
+            XMLFormatWriter writer = new XMLFormatWriter(writeFilepath);
             this.observer = new ParsedDataObserver(writer);
         }
         catch (FileNotFoundException | XMLStreamException e) { e.printStackTrace(); }

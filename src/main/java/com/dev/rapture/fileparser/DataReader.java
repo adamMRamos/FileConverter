@@ -1,16 +1,18 @@
 package com.dev.rapture.fileparser;
 
+import java.io.FileInputStream;
+
 /**
  * Created by amram on 2/4/2018.
  */
 public class DataReader
 {
-    private DataFormatReader reader;
+    private CsvFormatReader reader;
     private ParsedDataObservable observable;
 
-    public DataReader(String readFilepath)
+    public DataReader(FileInputStream fis)
     {
-        this.reader = new DataFormatReader(readFilepath);
+        this.reader = new CsvFormatReader(fis);
         this.observable = new ParsedDataObservable();
     }
 
@@ -18,8 +20,10 @@ public class DataReader
     {
         String[] line;
         while((line = this.reader.readLine()) != null)
-            observable.pushData(line);
-        observable.end();
+            this.observable.pushData(line);
+
+        this.observable.end();
+        this.reader.close();
     }
 
     public void linkDataReceiver(DataWriter receiver)

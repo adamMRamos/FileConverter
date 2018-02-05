@@ -1,5 +1,4 @@
 package com.dev.rapture.test;
-import com.dev.rapture.fileparser.DataFormatWriter;
 import com.dev.rapture.fileparser.ParsedDataObservable;
 import com.dev.rapture.fileparser.ParsedDataObserver;
 import org.junit.Before;

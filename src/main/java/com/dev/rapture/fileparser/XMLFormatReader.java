@@ -5,32 +5,26 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by amram on 2/4/2018.
  */
-public class XMLDataFormatReader
+public class XMLFormatReader
 {
-    private final String filepath;
     private XMLStreamReader xmlStreamReader;
     private Map<String, Integer> fieldMap = new HashMap<>();
     private Map<Integer, XmlStateModifier> stateModifierMap = new HashMap<>();
 
-    public XMLDataFormatReader(String filepath)
+    public XMLFormatReader(FileInputStream fis)
     {
-        this.filepath = filepath;
         this.initializeAttributeMap();
         this.initializeXmlStateModifiers();
 
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        try {
-            this.xmlStreamReader = xmlInputFactory.createXMLStreamReader(new FileInputStream(this.filepath));
-        } catch (XMLStreamException | FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        try { this.xmlStreamReader = xmlInputFactory.createXMLStreamReader(fis); }
+        catch (XMLStreamException e) { e.printStackTrace(); }
     }
 
     private void initializeAttributeMap()
@@ -49,6 +43,12 @@ public class XMLDataFormatReader
         catch (XMLStreamException e) { e.printStackTrace(); }
 
         return arrayOfData;
+    }
+
+    public void close()
+    {
+        try { this.xmlStreamReader.close(); }
+        catch (XMLStreamException e) { e.printStackTrace(); }
     }
 
     private void initializeXmlStateModifiers()

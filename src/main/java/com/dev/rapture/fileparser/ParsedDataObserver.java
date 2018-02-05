@@ -8,9 +8,9 @@ import java.util.Observer;
  */
 public class ParsedDataObserver implements Observer
 {
-    private DataFormatWriter writer;
+    private XMLFormatWriter writer;
 
-    public ParsedDataObserver(DataFormatWriter writer)
+    public ParsedDataObserver(XMLFormatWriter writer)
     {
         this.writer = writer;
     }
