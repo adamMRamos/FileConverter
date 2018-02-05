@@ -15,6 +15,8 @@ import java.util.Map;
 
 /**
  * Created by amram on 2/4/2018.
+ *
+ * This class writes data as XML Format.
  */
 public class XMLFormatReader extends FormatReader
 {
@@ -59,6 +61,11 @@ public class XMLFormatReader extends FormatReader
         catch (XMLStreamException e) { e.printStackTrace(); }
     }
 
+    /**
+     * Creates 4 behaviors to activate during parsing.
+     * The first 3 are for START tags, Characters, and END tags.
+     * The 4th is an empty behavior when the other 3 events are not present.
+     */
     private void initializeXmlStateModifiers()
     {
         this.stateModifierMap.put(XMLStreamConstants.START_ELEMENT, (state, streamReader) -> {
@@ -121,6 +128,9 @@ public class XMLFormatReader extends FormatReader
         return fieldPosition != null && fieldPosition < 0;
     }
 
+    /**
+     * Helper class to maintain state while parsing an xml file into individual objects.
+     */
     private static class XmlIteratorState
     {
         Integer fieldLocation = null;
@@ -130,6 +140,11 @@ public class XMLFormatReader extends FormatReader
         private XmlIteratorState(String[] objectData) { this.objectData = objectData; }
     }
 
+    /**
+     * Helper functional interface. This acts as the framework behavior
+     * for modifying the Iterator states while parsing.
+     *
+     */
     private interface XmlStateModifier
     {
         void modifyXmlIteratorState(XmlIteratorState state, XMLStreamReader streamReader);

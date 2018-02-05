@@ -9,6 +9,10 @@ import java.io.FileInputStream;
 
 /**
  * Created by amram on 2/4/2018.
+ *
+ * This class reads from a FileInputStream, parses the data with a given Format type,
+ * and pushes all data to a linked Writer.
+ * The linked Writer provides an observer to register with this Reader.
  */
 public class DataReader
 {

@@ -7,6 +7,10 @@ import java.util.Queue;
 
 /**
  * Created by amram on 2/4/2018.
+ *
+ * This class pushes data onto a Queue and notify's any registered observer.
+ * This class does not allow for any more than one observer at a time.
+ * If another class attempts to register with it the new observer will replace the old.
  */
 public class ParsedDataObservable extends Observable
 {

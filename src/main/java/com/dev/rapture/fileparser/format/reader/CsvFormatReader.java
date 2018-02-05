@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Created by amram on 2/4/2018.
+ *
+ * This class reads data in CSV Format.
  */
 public class CsvFormatReader extends FormatReader
 {

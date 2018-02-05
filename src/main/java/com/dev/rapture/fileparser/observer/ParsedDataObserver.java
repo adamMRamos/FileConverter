@@ -8,6 +8,12 @@ import java.util.Observer;
 
 /**
  * Created by amram on 2/4/2018.
+ *
+ * This class is a simple implementation of the Observer interface.
+ * This class listens for updates from its Observable and writes data
+ * to a FormatWriter.
+ *
+ * The Observable will notify the observer when there is no more data to read.
  */
 public class ParsedDataObserver implements Observer
 {

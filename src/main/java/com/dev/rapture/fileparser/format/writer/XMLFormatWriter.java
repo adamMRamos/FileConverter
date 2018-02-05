@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 /**
  * Created by amram on 2/4/2018.
+ *
+ * This class writes data in XML Format.
  */
 public class XMLFormatWriter extends FormatWriter
 {

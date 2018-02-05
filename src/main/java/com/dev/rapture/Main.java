@@ -14,6 +14,9 @@ import java.util.Map;
 
 /**
  * Created by amram on 2/5/2018.
+ *
+ * This program takes in 3 arguments: 2 filepaths (read path & write path) and 1 header filepath.
+ * The header file contains the full header list for the files to ease conversion from one format to the next.
  */
 public class Main
 {
