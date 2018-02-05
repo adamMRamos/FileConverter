@@ -1,8 +1,8 @@
 package com.dev.rapture.fileparser;
 
-import com.dev.rapture.fileparser.format.writer.CsvFormatWriter;
+import com.dev.rapture.fileparser.format.FormatType;
+import com.dev.rapture.fileparser.format.FormatWriterFactory;
 import com.dev.rapture.fileparser.format.FormatWriter;
-import com.dev.rapture.fileparser.format.writer.XMLFormatWriter;
 
 import java.io.FileOutputStream;
 
@@ -13,12 +13,9 @@ public class DataWriter
 {
     private ParsedDataObserver observer;
 
-    public DataWriter(FileOutputStream fos, String format)
+    public DataWriter(FileOutputStream fos, FormatType type)
     {
-        FormatWriter writer;
-        if (format.equalsIgnoreCase("xml")) writer = new XMLFormatWriter(fos);
-        else writer = new CsvFormatWriter(fos);
-
+        FormatWriter writer = FormatWriterFactory.getInstance(fos, type);
         this.observer = new ParsedDataObserver(writer);
     }
 

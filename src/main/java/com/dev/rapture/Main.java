@@ -2,6 +2,7 @@ package com.dev.rapture;
 
 import com.dev.rapture.fileparser.DataReader;
 import com.dev.rapture.fileparser.DataWriter;
+import com.dev.rapture.fileparser.format.FormatType;
 import com.dev.rapture.fileparser.format.reader.XMLFormatReader;
 
 import java.io.FileInputStream;
@@ -19,17 +20,7 @@ public class Main
     {
         System.out.println("read from file: "+Main.readFilepath);
 
-//        try {
-//            DataWriter writer = new DataWriter(new FileOutputStream(Main.writeFilepath), "xml");
-//            DataReader reader = new DataReader(new FileInputStream(Main.readFilepath), "csv");
-//
-//            reader.linkDataReceiver(writer);
-//            reader.readAllData();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-
-        Main.runWriterReader(Main.writeFilepath, Main.readFilepath, "xml", "csv");
+        Main.runWriterReader(Main.writeFilepath, Main.readFilepath, FormatType.XML, FormatType.CSV);
 
         try {
             XMLFormatReader xmlReader = new XMLFormatReader(new FileInputStream(Main.writeFilepath));
@@ -39,10 +30,10 @@ public class Main
             e.printStackTrace();
         }
 
-        Main.runWriterReader(Main.writeFilepath2, Main.writeFilepath, "csv", "xml");
+        Main.runWriterReader(Main.writeFilepath2, Main.writeFilepath, FormatType.CSV, FormatType.XML);
     }
 
-    private static void runWriterReader(String writeFilepath, String readFilepath, String writeFormat, String readFormat)
+    private static void runWriterReader(String writeFilepath, String readFilepath, FormatType writeFormat, FormatType readFormat)
     {
         try {
             DataWriter writer = new DataWriter(new FileOutputStream(writeFilepath), writeFormat);
