@@ -51,20 +51,6 @@ public class XMLDataFormatReader
         return arrayOfData;
     }
 
-    private static class XmlIteratorState
-    {
-        Integer fieldLocation = null;
-        String[] objectData;
-        boolean fullObjectFound = false;
-
-        private XmlIteratorState(String[] objectData) { this.objectData = objectData; }
-    }
-
-    private interface XmlStateModifier
-    {
-        void modifyXmlIteratorState(XmlIteratorState state, XMLStreamReader streamReader);
-    }
-
     private void initializeXmlStateModifiers()
     {
         this.stateModifierMap.put(XMLStreamConstants.START_ELEMENT, (state, streamReader) -> {
@@ -112,39 +98,6 @@ public class XMLDataFormatReader
         return null;
     }
 
-    private String[] readXMLObjectIntoArray() throws XMLStreamException
-    {
-        String[] objectData = new String[12];
-        int event = this.xmlStreamReader.getEventType();
-
-        Integer fieldLocation = null;
-        while(this.xmlStreamReader.hasNext()) {
-            switch(event) {
-                case XMLStreamConstants.START_ELEMENT:
-                    System.out.println("event is START element");
-                    System.out.println(this.xmlStreamReader.getLocalName());
-                    fieldLocation = this.getElementFieldLocation(this.xmlStreamReader.getLocalName());
-                    break;
-                case XMLStreamConstants.CHARACTERS:
-                    System.out.println("event is characters");
-                    if (this.isAnObjectField(fieldLocation)) {
-                        objectData[fieldLocation] = this.xmlStreamReader.getText();
-                        fieldLocation = null;
-                    }
-                    break;
-                case XMLStreamConstants.END_ELEMENT:
-                    System.out.println("event is END element");
-                    System.out.println(this.xmlStreamReader.getLocalName());
-                    if (this.isAnObjectClosingDiv(this.getElementFieldLocation(this.xmlStreamReader.getLocalName()))) {
-                        this.xmlStreamReader.next();
-                        return objectData;
-                    }
-            }
-            event = this.xmlStreamReader.next();
-        }
-        return null;
-    }
-
     private Integer getElementFieldLocation(String startElementName)
     {
         return this.fieldMap.get(startElementName);
@@ -160,61 +113,17 @@ public class XMLDataFormatReader
         return fieldPosition != null && fieldPosition < 0;
     }
 
-    private void begin()
+    private static class XmlIteratorState
     {
+        Integer fieldLocation = null;
+        String[] objectData;
+        boolean fullObjectFound = false;
 
+        private XmlIteratorState(String[] objectData) { this.objectData = objectData; }
     }
 
-    private void readAll()
+    private interface XmlStateModifier
     {
-        boolean[] attributeList = new boolean[4];
-        XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        try {
-            XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(new FileInputStream(this.filepath));
-            int event = xmlStreamReader.getEventType();
-            while (true) {
-                switch (event) {
-                    case XMLStreamConstants.START_ELEMENT:
-                        if (xmlStreamReader.getLocalName().equals("student")) {
-                            xmlStreamReader.getAttributeValue(0);
-                        } else if (xmlStreamReader.getLocalName().equals("name")) {
-                            attributeList[0] = true;
-                        } else if (xmlStreamReader.getLocalName().equals("age")) {
-                            attributeList[1] = true;
-                        } else if (xmlStreamReader.getLocalName().equals("role")) {
-                            attributeList[2] = true;
-                        } else if (xmlStreamReader.getLocalName().equals("gender")) {
-                            attributeList[3] = true;
-                        }
-                        break;
-                    case XMLStreamConstants.CHARACTERS:
-                        if (attributeList[0]) {
-//                            emp.setName(xmlStreamReader.getText());
-//                            bName = false;
-                        } else if (attributeList[0]) {
-//                            emp.setAge(Integer.parseInt(xmlStreamReader.getText()));
-//                            bAge = false;
-                        } else if (attributeList[0]) {
-//                            emp.setGender(xmlStreamReader.getText());
-//                            bGender = false;
-                        } else if (attributeList[0]) {
-//                            emp.setRole(xmlStreamReader.getText());
-//                            bRole = false;
-                        }
-                        break;
-                    case XMLStreamConstants.END_ELEMENT:
-                        if (xmlStreamReader.getLocalName().equals("Employee")) {
-//                            empList.add(emp);
-                        }
-                        break;
-                }
-                if (!xmlStreamReader.hasNext())
-                    break;
-
-                event = xmlStreamReader.next();
-            }
-        } catch (FileNotFoundException | XMLStreamException e) {
-            e.printStackTrace();
-        }
+        void modifyXmlIteratorState(XmlIteratorState state, XMLStreamReader streamReader);
     }
 }
