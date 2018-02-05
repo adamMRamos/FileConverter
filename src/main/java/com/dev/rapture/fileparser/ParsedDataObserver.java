@@ -18,8 +18,10 @@ public class ParsedDataObserver implements Observer
     @Override
     public void update(Observable observable, Object arg)
     {
-        if (arg != null && arg.toString().equalsIgnoreCase("end")) writer.end();
-
-        else writer.write(((ParsedDataObservable) observable).pullData());
+        String[] data = ((ParsedDataObservable) observable).pullData();
+        if (arg != null && arg.toString().equalsIgnoreCase("end"))
+            writer.end();
+        else
+            writer.write(data);
     }
 }

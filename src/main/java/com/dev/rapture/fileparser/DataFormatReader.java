@@ -1,7 +1,6 @@
 package com.dev.rapture.fileparser;
 
 import com.opencsv.CSVReader;
-import javax.xml.stream.XMLStreamException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;

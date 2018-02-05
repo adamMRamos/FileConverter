@@ -14,6 +14,7 @@ public class DataFormatWriter
 {
     private XMLStreamWriter writer;
     private boolean began = false;
+    private boolean end = false;
 
     public DataFormatWriter(String writeFilepath) throws FileNotFoundException, XMLStreamException
     {
@@ -35,7 +36,7 @@ public class DataFormatWriter
     {
         try {
             if (!began) this.begin();
-            this.endXMLDoc();
+            if (!end) this.endXMLDoc();
         }
         catch (XMLStreamException e) { e.printStackTrace(); }
     }
@@ -63,15 +64,22 @@ public class DataFormatWriter
     {
         final int[] counter = new int[]{0};
         Arrays.stream(data).forEach(element -> {
-            try {
-                this.writer.writeStartElement("field"+counter[0]++);
-                this.writer.writeCharacters(element.toString());
-                this.writer.writeEndElement();
-                this.writer.flush();
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
-            }
+            String elementAsStringData = element.toString().trim();
+            String fieldName = "field"+counter[0]++;
+            try { this.writeElement(fieldName, elementAsStringData); }
+            catch (XMLStreamException e) { e.printStackTrace(); }
         });
+    }
+
+    private void writeElement(String fieldName, String element) throws XMLStreamException
+    {
+        this.writer.writeStartElement(fieldName);
+
+        if (element.isEmpty()) this.writer.writeCharacters("null");
+        else this.writer.writeCharacters(element);
+
+        this.writer.writeEndElement();
+        this.writer.flush();
     }
 
     private void endXMLDoc() throws XMLStreamException
@@ -79,5 +87,6 @@ public class DataFormatWriter
         this.writer.writeEndElement();
         this.writer.flush();
         this.writer.close();
+        this.end = true;
     }
 }

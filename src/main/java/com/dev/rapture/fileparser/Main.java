@@ -1,5 +1,7 @@
 package com.dev.rapture.fileparser;
 
+import java.util.Arrays;
+
 public class Main
 {
     static String readFilepath = "data/sample_data.csv";
@@ -14,5 +16,9 @@ public class Main
         DataReader reader = new DataReader(Main.readFilepath);
         reader.linkDataReceiver(writer);
         reader.readAllData();
+
+        XMLDataFormatReader xmlReader = new XMLDataFormatReader(writeFilepath);
+        String[] line;
+        while((line = xmlReader.readLine()) != null) System.out.println(Arrays.toString(line));
     }
 }
