@@ -5,7 +5,9 @@ import com.dev.rapture.fileparser.format.FormatWriter;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
 /**
@@ -21,8 +23,10 @@ public class XMLFormatWriter extends FormatWriter
     {
         super(header);
 
+        OutputStreamWriter osw = new OutputStreamWriter(fos);
+        BufferedWriter bw = new BufferedWriter(osw);
         XMLOutputFactory xmlOutFact = XMLOutputFactory.newInstance();
-        try { this.writer = xmlOutFact.createXMLStreamWriter(fos); }
+        try { this.writer = xmlOutFact.createXMLStreamWriter(bw); }
         catch (XMLStreamException e) { e.printStackTrace(); }
     }
 
@@ -59,7 +63,6 @@ public class XMLFormatWriter extends FormatWriter
             this.writer.writeStartElement("element");
             this.writeObjectFields(data);
             this.writer.writeEndElement();
-            this.writer.flush();
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }

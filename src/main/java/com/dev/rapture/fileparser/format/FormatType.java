@@ -5,5 +5,17 @@ package com.dev.rapture.fileparser.format;
  */
 public enum FormatType
 {
-    XML, CSV;
+    XML("xml"), CSV("csv");
+
+    private String type;
+
+    FormatType(String type)
+    {
+        this.type = type;
+    }
+
+    public String getType()
+    {
+        return this.type;
+    }
 }

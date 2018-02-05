@@ -2,6 +2,8 @@ package com.dev.rapture.fileparser.format.reader;
 
 import com.dev.rapture.fileparser.format.FormatReader;
 import com.opencsv.CSVReader;
+
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +22,8 @@ public class CsvFormatReader extends FormatReader
         super(header);
 
         InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-        this.reader = new CSVReader(isr);
+        BufferedReader br = new BufferedReader(isr);
+        this.reader = new CSVReader(br);
     }
 
     public String[] readLine()

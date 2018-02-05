@@ -6,7 +6,10 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,8 +29,11 @@ public class XMLFormatReader extends FormatReader
         this.initializeAttributeMap();
         this.initializeXmlStateModifiers();
 
+        InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        BufferedReader br = new BufferedReader(isr);
+
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        try { this.xmlStreamReader = xmlInputFactory.createXMLStreamReader(fis); }
+        try { this.xmlStreamReader = xmlInputFactory.createXMLStreamReader(br); }
         catch (XMLStreamException e) { e.printStackTrace(); }
     }
 

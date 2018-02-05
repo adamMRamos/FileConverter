@@ -2,6 +2,8 @@ package com.dev.rapture.fileparser.format.writer;
 
 import com.dev.rapture.fileparser.format.FormatWriter;
 import com.opencsv.CSVWriter;
+
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -20,7 +22,8 @@ public class CsvFormatWriter extends FormatWriter
         super(header);
 
         OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-        this.writer = new CSVWriter(osw);
+        BufferedWriter bw = new BufferedWriter(osw);
+        this.writer = new CSVWriter(bw);
     }
 
     public void write(Object[] data)
