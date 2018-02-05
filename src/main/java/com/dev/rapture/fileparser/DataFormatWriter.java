@@ -15,21 +15,18 @@ public class DataFormatWriter
     private XMLStreamWriter writer;
     private boolean began = false;
 
-    public DataFormatWriter() throws FileNotFoundException, XMLStreamException
+    public DataFormatWriter(String writeFilepath) throws FileNotFoundException, XMLStreamException
     {
-        FileOutputStream fos = new FileOutputStream("data/test.xml");
+        FileOutputStream fos = new FileOutputStream(writeFilepath);
         XMLOutputFactory xmlOutFact = XMLOutputFactory.newInstance();
         this.writer = xmlOutFact.createXMLStreamWriter(fos);
     }
 
     public void write(Object[] data)
     {
-        if (!began) try {
-            this.begin();
-            this.began = true;
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
+        if (!began)
+            try { this.begin(); }
+            catch (XMLStreamException e) { e.printStackTrace(); }
 
         this.writeToXML(data);
     }
@@ -37,16 +34,17 @@ public class DataFormatWriter
     public void end()
     {
         try {
+            if (!began) this.begin();
             this.endXMLDoc();
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
         }
+        catch (XMLStreamException e) { e.printStackTrace(); }
     }
 
     private void begin() throws XMLStreamException
     {
         this.writer.writeStartDocument();
         this.writer.writeStartElement("body");
+        this.began = true;
     }
 
     private void writeToXML(Object[] data)

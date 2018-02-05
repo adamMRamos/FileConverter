@@ -19,6 +19,11 @@ public class ParsedDataObservable extends Observable
 
     public void pushData(String[] data)
     {
+        this.pushDataToBuffer(data);
+    }
+
+    private void pushDataToBuffer(String[] data)
+    {
         this.incomingData.add(data);
         this.setChanged();
         this.notifyObservers();
