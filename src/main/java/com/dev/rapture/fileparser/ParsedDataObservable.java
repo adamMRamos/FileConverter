@@ -32,7 +32,7 @@ public class ParsedDataObservable extends Observable
     public void end()
     {
         this.setChanged();
-        this.notifyObservers("end");
+        this.notifyObservers("close");
         this.incomingData.clear();
     }
 

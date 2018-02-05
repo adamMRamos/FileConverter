@@ -1,8 +1,8 @@
-package com.dev.rapture.fileparser;
+package com.dev.rapture.fileparser.format.reader;
 
+import com.dev.rapture.fileparser.format.FormatReader;
 import com.opencsv.CSVReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by amram on 2/4/2018.
  */
-public class CsvFormatReader
+public class CsvFormatReader implements FormatReader
 {
     private CSVReader reader;
     private boolean began = false;

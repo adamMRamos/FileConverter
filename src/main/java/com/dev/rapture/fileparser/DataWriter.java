@@ -1,7 +1,10 @@
 package com.dev.rapture.fileparser;
 
-import javax.xml.stream.XMLStreamException;
-import java.io.FileNotFoundException;
+import com.dev.rapture.fileparser.format.writer.CsvFormatWriter;
+import com.dev.rapture.fileparser.format.FormatWriter;
+import com.dev.rapture.fileparser.format.writer.XMLFormatWriter;
+
+import java.io.FileOutputStream;
 
 /**
  * Created by amram on 2/4/2018.
@@ -10,13 +13,13 @@ public class DataWriter
 {
     private ParsedDataObserver observer;
 
-    public DataWriter(String writeFilepath)
+    public DataWriter(FileOutputStream fos, String format)
     {
-        try {
-            XMLFormatWriter writer = new XMLFormatWriter(writeFilepath);
-            this.observer = new ParsedDataObserver(writer);
-        }
-        catch (FileNotFoundException | XMLStreamException e) { e.printStackTrace(); }
+        FormatWriter writer;
+        if (format.equalsIgnoreCase("xml")) writer = new XMLFormatWriter(fos);
+        else writer = new CsvFormatWriter(fos);
+
+        this.observer = new ParsedDataObserver(writer);
     }
 
     public ParsedDataObserver getLink()

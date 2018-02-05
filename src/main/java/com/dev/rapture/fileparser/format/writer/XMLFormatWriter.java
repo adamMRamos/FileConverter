@@ -1,28 +1,30 @@
-package com.dev.rapture.fileparser;
+package com.dev.rapture.fileparser.format.writer;
+
+import com.dev.rapture.fileparser.format.FormatWriter;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Arrays;
 
 /**
  * Created by amram on 2/4/2018.
  */
-public class XMLFormatWriter
+public class XMLFormatWriter implements FormatWriter
 {
     private XMLStreamWriter writer;
     private boolean began = false;
     private boolean end = false;
 
-    public XMLFormatWriter(String writeFilepath) throws FileNotFoundException, XMLStreamException
+    public XMLFormatWriter(FileOutputStream fos)
     {
-        FileOutputStream fos = new FileOutputStream(writeFilepath);
         XMLOutputFactory xmlOutFact = XMLOutputFactory.newInstance();
-        this.writer = xmlOutFact.createXMLStreamWriter(fos);
+        try { this.writer = xmlOutFact.createXMLStreamWriter(fos); }
+        catch (XMLStreamException e) { e.printStackTrace(); }
     }
 
+    @Override
     public void write(Object[] data)
     {
         if (!began)
@@ -32,7 +34,8 @@ public class XMLFormatWriter
         this.writeToXML(data);
     }
 
-    public void end()
+    @Override
+    public void close()
     {
         try {
             if (!began) this.begin();
@@ -66,7 +69,9 @@ public class XMLFormatWriter
         Arrays.stream(data).forEach(element -> {
             String elementAsStringData = element.toString().trim();
             String fieldName = "field"+counter[0]++;
-            try { this.writeElement(fieldName, elementAsStringData); }
+            try {
+                if (!elementAsStringData.isEmpty()) this.writeElement(fieldName, elementAsStringData);
+            }
             catch (XMLStreamException e) { e.printStackTrace(); }
         });
     }
@@ -74,10 +79,7 @@ public class XMLFormatWriter
     private void writeElement(String fieldName, String element) throws XMLStreamException
     {
         this.writer.writeStartElement(fieldName);
-
-        if (element.isEmpty()) this.writer.writeCharacters("null");
-        else this.writer.writeCharacters(element);
-
+        this.writer.writeCharacters(element);
         this.writer.writeEndElement();
         this.writer.flush();
     }

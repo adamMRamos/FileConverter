@@ -1,4 +1,6 @@
-package com.dev.rapture.fileparser;
+package com.dev.rapture.fileparser.format.reader;
+
+import com.dev.rapture.fileparser.format.FormatReader;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -11,7 +13,7 @@ import java.util.Map;
 /**
  * Created by amram on 2/4/2018.
  */
-public class XMLFormatReader
+public class XMLFormatReader implements FormatReader
 {
     private XMLStreamReader xmlStreamReader;
     private Map<String, Integer> fieldMap = new HashMap<>();

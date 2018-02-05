@@ -1,5 +1,9 @@
 package com.dev.rapture.fileparser;
 
+import com.dev.rapture.fileparser.format.reader.CsvFormatReader;
+import com.dev.rapture.fileparser.format.FormatReader;
+import com.dev.rapture.fileparser.format.reader.XMLFormatReader;
+
 import java.io.FileInputStream;
 
 /**
@@ -7,12 +11,14 @@ import java.io.FileInputStream;
  */
 public class DataReader
 {
-    private CsvFormatReader reader;
+    private FormatReader reader;
     private ParsedDataObservable observable;
 
-    public DataReader(FileInputStream fis)
+    public DataReader(FileInputStream fis, String format)
     {
-        this.reader = new CsvFormatReader(fis);
+        if (format.equalsIgnoreCase("xml")) this.reader = new XMLFormatReader(fis);
+        else this.reader = new CsvFormatReader(fis);
+
         this.observable = new ParsedDataObservable();
     }
 

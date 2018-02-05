@@ -1,5 +1,7 @@
 package com.dev.rapture.fileparser;
 
+import com.dev.rapture.fileparser.format.FormatWriter;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,9 +10,9 @@ import java.util.Observer;
  */
 public class ParsedDataObserver implements Observer
 {
-    private XMLFormatWriter writer;
+    private FormatWriter writer;
 
-    public ParsedDataObserver(XMLFormatWriter writer)
+    public ParsedDataObserver(FormatWriter writer)
     {
         this.writer = writer;
     }
@@ -19,8 +21,8 @@ public class ParsedDataObserver implements Observer
     public void update(Observable observable, Object arg)
     {
         String[] data = ((ParsedDataObservable) observable).pullData();
-        if (arg != null && arg.toString().equalsIgnoreCase("end"))
-            writer.end();
+        if (arg != null && arg.toString().equalsIgnoreCase("close"))
+            writer.close();
         else
             writer.write(data);
     }
