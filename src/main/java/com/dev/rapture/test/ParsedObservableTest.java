@@ -1,6 +1,6 @@
 package com.dev.rapture.test;
-import com.dev.rapture.fileparser.ParsedDataObservable;
-import com.dev.rapture.fileparser.ParsedDataObserver;
+import com.dev.rapture.fileparser.observer.ParsedDataObservable;
+import com.dev.rapture.fileparser.observer.ParsedDataObserver;
 import org.junit.Before;
 import org.junit.Test;
 

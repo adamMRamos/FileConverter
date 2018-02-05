@@ -1,6 +1,7 @@
-package com.dev.rapture.fileparser;
+package com.dev.rapture.fileparser.observer;
 
 import com.dev.rapture.fileparser.format.FormatWriter;
+import com.dev.rapture.fileparser.observer.ParsedDataObservable;
 
 import java.util.Observable;
 import java.util.Observer;

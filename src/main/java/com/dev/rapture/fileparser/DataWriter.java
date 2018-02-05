@@ -3,6 +3,7 @@ package com.dev.rapture.fileparser;
 import com.dev.rapture.fileparser.format.FormatType;
 import com.dev.rapture.fileparser.format.FormatWriterFactory;
 import com.dev.rapture.fileparser.format.FormatWriter;
+import com.dev.rapture.fileparser.observer.ParsedDataObserver;
 
 import java.io.FileOutputStream;
 

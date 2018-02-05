@@ -1,4 +1,4 @@
-package com.dev.rapture.fileparser;
+package com.dev.rapture.fileparser.observer;
 
 import java.util.ArrayDeque;
 import java.util.Observable;

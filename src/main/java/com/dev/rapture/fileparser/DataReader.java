@@ -2,9 +2,8 @@ package com.dev.rapture.fileparser;
 
 import com.dev.rapture.fileparser.format.FormatReaderFactory;
 import com.dev.rapture.fileparser.format.FormatType;
-import com.dev.rapture.fileparser.format.reader.CsvFormatReader;
 import com.dev.rapture.fileparser.format.FormatReader;
-import com.dev.rapture.fileparser.format.reader.XMLFormatReader;
+import com.dev.rapture.fileparser.observer.ParsedDataObservable;
 
 import java.io.FileInputStream;
 
