@@ -1,7 +1,5 @@
 package com.dev.rapture;
 
-import com.dev.rapture.fileparser.DataReader;
-import com.dev.rapture.fileparser.DataWriter;
 import com.dev.rapture.fileparser.format.*;
 import com.dev.rapture.fileparser.format.exception.UnknownFileFormatException;
 import com.dev.rapture.fileparser.format.reader.CsvFormatReader;
