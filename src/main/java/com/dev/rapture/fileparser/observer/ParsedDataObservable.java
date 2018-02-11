@@ -12,6 +12,7 @@ import java.util.Queue;
  * This class does not allow for any more than one observer at a time.
  * If another class attempts to register with it the new observer will replace the old.
  */
+@Deprecated
 public class ParsedDataObservable extends Observable
 {
     private Queue<String[]> incomingData;

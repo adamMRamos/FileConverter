@@ -15,6 +15,7 @@ import java.util.Observer;
  *
  * The Observable will notify the observer when there is no more data to read.
  */
+@Deprecated
 public class ParsedDataObserver implements Observer
 {
     private FormatWriter writer;

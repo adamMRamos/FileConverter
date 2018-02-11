@@ -3,6 +3,7 @@ package com.dev.rapture.fileparser;
 import com.dev.rapture.fileparser.format.FormatReaderFactory;
 import com.dev.rapture.fileparser.format.FormatType;
 import com.dev.rapture.fileparser.format.FormatReader;
+import com.dev.rapture.fileparser.format.exception.UnknownFileFormatException;
 import com.dev.rapture.fileparser.observer.ParsedDataObservable;
 
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ import java.io.FileInputStream;
  * and pushes all data to a linked Writer.
  * The linked Writer provides an observer to register with this Reader.
  */
+@Deprecated
 public class DataReader
 {
     private FormatReader reader;
@@ -21,7 +23,11 @@ public class DataReader
 
     public DataReader(FileInputStream fis, String[] header, FormatType type)
     {
-        this.reader = FormatReaderFactory.getInstance(fis, header, type);
+        try {
+            this.reader = FormatReaderFactory.getInstance(fis, header, type);
+        } catch (UnknownFileFormatException e) {
+            e.printStackTrace();
+        }
         this.observable = new ParsedDataObservable();
     }
 

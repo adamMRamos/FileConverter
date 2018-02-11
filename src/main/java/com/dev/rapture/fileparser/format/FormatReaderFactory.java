@@ -1,5 +1,6 @@
 package com.dev.rapture.fileparser.format;
 
+import com.dev.rapture.fileparser.format.exception.UnknownFileFormatException;
 import com.dev.rapture.fileparser.format.reader.CsvFormatReader;
 import com.dev.rapture.fileparser.format.reader.XMLFormatReader;
 
@@ -10,12 +11,12 @@ import java.io.FileInputStream;
  */
 public class FormatReaderFactory
 {
-    public static FormatReader getInstance(FileInputStream fis, String[] header, FormatType type)
+    public static FormatReader getInstance(FileInputStream fis, String[] header, FormatType type) throws UnknownFileFormatException
     {
         switch(type) {
             case CSV: return new CsvFormatReader(fis, header);
             case XML: return new XMLFormatReader(fis, header);
-            default: return null;
+            default: throw new UnknownFileFormatException();
         }
     }
 }

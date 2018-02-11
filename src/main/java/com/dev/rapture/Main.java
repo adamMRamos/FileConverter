@@ -2,7 +2,8 @@ package com.dev.rapture;
 
 import com.dev.rapture.fileparser.DataReader;
 import com.dev.rapture.fileparser.DataWriter;
-import com.dev.rapture.fileparser.format.FormatType;
+import com.dev.rapture.fileparser.format.*;
+import com.dev.rapture.fileparser.format.exception.UnknownFileFormatException;
 import com.dev.rapture.fileparser.format.reader.CsvFormatReader;
 
 import java.io.FileInputStream;
@@ -58,12 +59,14 @@ public class Main
     private static void runWriterReader(String[] header, String writeFilepath, String readFilepath, FormatType writeFormat, FormatType readFormat)
     {
         try {
-            DataWriter writer = new DataWriter(new FileOutputStream(writeFilepath), header, writeFormat);
-            DataReader reader = new DataReader(new FileInputStream(readFilepath), header, readFormat);
+            FormatReader reader = FormatReaderFactory.getInstance(new FileInputStream(readFilepath), header, readFormat);
+            FormatWriter writer = FormatWriterFactory.getInstance(new FileOutputStream(writeFilepath), header, writeFormat);
 
-            reader.linkDataReceiver(writer);
-            reader.readAllData();
-        } catch (FileNotFoundException e) {
+            String[] line;
+            while ((line = reader.readLine()) != null) writer.write(line);
+            reader.close();
+            writer.close();
+        } catch (FileNotFoundException | UnknownFileFormatException e) {
             e.printStackTrace();
         }
     }

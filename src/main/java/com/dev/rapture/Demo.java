@@ -2,7 +2,8 @@ package com.dev.rapture;
 
 import com.dev.rapture.fileparser.DataReader;
 import com.dev.rapture.fileparser.DataWriter;
-import com.dev.rapture.fileparser.format.FormatType;
+import com.dev.rapture.fileparser.format.*;
+import com.dev.rapture.fileparser.format.exception.UnknownFileFormatException;
 import com.dev.rapture.fileparser.format.reader.CsvFormatReader;
 import com.dev.rapture.fileparser.format.reader.XMLFormatReader;
 
@@ -19,6 +20,22 @@ public class Demo
     private static String headerFilepath = "data/header";
     private static String[] header;
 
+    public static void test()
+    {
+        try {
+            FormatReader reader = FormatReaderFactory.getInstance(new FileInputStream(Demo.readFilepath), Demo.header, FormatType.CSV);
+            FormatWriter writer = FormatWriterFactory.getInstance(new FileOutputStream(Demo.writeFilepath), Demo.header, FormatType.XML);
+
+            String[] line;
+            while ((line = reader.readLine()) != null) writer.write(line);
+            reader.close();
+            writer.close();
+
+        } catch (FileNotFoundException | UnknownFileFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args)
     {
         try {
@@ -31,17 +48,19 @@ public class Demo
             e.printStackTrace();
         }
 
-        Demo.runWriterReader(Demo.writeFilepath, Demo.readFilepath, FormatType.XML, FormatType.CSV);
+        Demo.test();
 
-        try {
-            XMLFormatReader xmlReader = new XMLFormatReader(new FileInputStream(Demo.writeFilepath), Demo.header);
-            String[] line;
-            while((line = xmlReader.readLine()) != null) System.out.println(Arrays.toString(line));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Demo.runWriterReader(Demo.writeFilepath2, Demo.writeFilepath, FormatType.CSV, FormatType.XML);
+//        Demo.runWriterReader(Demo.writeFilepath, Demo.readFilepath, FormatType.XML, FormatType.CSV);
+//
+//        try {
+//            XMLFormatReader xmlReader = new XMLFormatReader(new FileInputStream(Demo.writeFilepath), Demo.header);
+//            String[] line;
+//            while((line = xmlReader.readLine()) != null) System.out.println(Arrays.toString(line));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Demo.runWriterReader(Demo.writeFilepath2, Demo.writeFilepath, FormatType.CSV, FormatType.XML);
     }
 
     private static void runWriterReader(String writeFilepath, String readFilepath, FormatType writeFormat, FormatType readFormat)
